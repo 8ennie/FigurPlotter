@@ -18,6 +18,9 @@ import figurPlotter.Arrow
 import figurPlotter.FigurPlotterPackage
 import org.eclipse.emf.ecore.resource.ResourceSet
 import figurPlotter.Circle
+import figurPlotter.Rectangle
+import figurPlotter.Square
+import figurPlotter.Polygon
 
 class FigurPlotter {
 
@@ -137,7 +140,7 @@ class FigurPlotter {
 
 	def compileMainClassGen(Resource resourceEcore) {
 		'''
-			package Â«PACKAGEÂ»main;
+			package «PACKAGE»main;
 			
 			import de.thm.plotter.figurimpl.*;
 			import de.thm.plotter.figurs.*;
@@ -149,22 +152,22 @@ class FigurPlotter {
 					PApplet.main(MainGen.class.getName());
 				}
 			
-			Â«FOR Figur f : resourceEcore.allContents.toIterable.filter(typeof(Figur))Â»
-				private Â«f.eClass.nameÂ» Â«f.nameÂ»;
-			Â«ENDFORÂ»
+			«FOR Figur f : resourceEcore.allContents.toIterable.filter(typeof(Figur))»
+				private «f.eClass.name» «f.name»;
+			«ENDFOR»
 			
 			
 				@Override
 				public void draw() {
-					Â«FOR Figur f : resourceEcore.allContents.toIterable.filter(typeof(Figur))Â»
-						this.Â«f.nameÂ».show();
-					Â«ENDFORÂ»
+					«FOR Figur f : resourceEcore.allContents.toIterable.filter(typeof(Figur))»
+						this.«f.name».show(this);
+					«ENDFOR»
 				}
 			
 				public void settings() {
-				  	Â«FOR Plotter p : resourceEcore.allContents.toIterable.filter(typeof(Plotter))Â»
-					this.size(Â«p.canvasLengthÂ», Â«p.canvasWidthÂ»);
-				Â«ENDFORÂ»
+				  	«FOR Plotter p : resourceEcore.allContents.toIterable.filter(typeof(Plotter))»
+					this.size(«p.canvasLength», «p.canvasWidth»);
+				«ENDFOR»
 				}
 			
 				@Override
@@ -172,90 +175,40 @@ class FigurPlotter {
 					this.fill(120, 50, 240);
 					this.strokeWeight(1);
 					
-					Â«FOR Line l : resourceEcore.allContents.toIterable.filter(typeof(Line))Â»
-						this.Â«l.nameÂ» = new Line(this, "Â«l.nameÂ»", "Â«l.colorÂ»", Â«l.filledÂ», Â«l.strokeWeightÂ», Â«l.degreeÂ», new Point(Â«l.center.XPosÂ», Â«l.center.YPosÂ»), Â«l.lenghtÂ», Â«l.displayNameÂ»);
-					
-				Â«ENDFORÂ»
+					«FOR Line l : resourceEcore.allContents.toIterable.filter(typeof(Line))»
+						this.«l.name» = new Line("«l.name»", "«l.color»", «l.filled», «l.strokeWeight», «l.degree», «l.displayName», «l.lenght» ,new Point(«l.center.XPos», «l.center.YPos»), null);
+						
+				«ENDFOR»
 				
-				Â«FOR Arrow a : resourceEcore.allContents.toIterable.filter(typeof(Arrow))Â»
-					this.Â«a.nameÂ» = new Arrow(this, "Â«a.nameÂ»", "Â«a.colorÂ»", Â«a.filledÂ», Â«a.strokeWeightÂ», Â«a.degreeÂ», new Point(Â«a.center.XPosÂ», Â«a.center.YPosÂ»), Â«a.lenghtÂ», Â«a.arrowheadLeftÂ»,Â«a.arrowheadRightÂ»);
-				Â«ENDFORÂ»
+				«FOR Arrow a : resourceEcore.allContents.toIterable.filter(typeof(Arrow))»
+					this.«a.name» = new Arrow("«a.name»", "«a.color»", «a.filled», «a.strokeWeight», «a.degree», «a.displayName»,«a.lenght», «a.arrowheadLeft»,«a.arrowheadRight»,new Point(«a.center.XPos», «a.center.YPos»), null);
+				«ENDFOR»
 				
-				Â«FOR Circle c : resourceEcore.allContents.toIterable.filter(typeof(Circle))Â»
-					this.Â«c.nameÂ» = new Circle(this, "Â«c.nameÂ»", "Â«c.colorÂ»", Â«c.filledÂ», Â«c.strokeWeightÂ», Â«c.degreeÂ», new Point(Â«c.center.XPosÂ», Â«c.center.YPosÂ»), 2 * Â«c.radiusÂ», Â«c.displayNameÂ»);
-				Â«ENDFORÂ»
+				«FOR Circle c : resourceEcore.allContents.toIterable.filter(typeof(Circle))»
+					this.«c.name» = new Circle("«c.name»", "«c.color»", «c.filled», «c.strokeWeight», «c.degree», «c.displayName», 2 * «c.radius», new Point(«c.center.XPos», «c.center.YPos»), null);
+				«ENDFOR»
 				
-			Â«Â«Â«					this.l = new Line(this, "test", null, false, 0, 45, new Point(100, 100), 50);
-Â«Â«Â«					this.l1 = new Line(this, "test", null, false, 0, 0, new Point(100, 100), 110);
-Â«Â«Â«					this.a = new Arrow(this, "test", null, false, 0, 120, new Point(200, 200), 150);
-Â«Â«Â«					this.r = new Rectangle(this, "peni", "FF00cc2c", false, 1, 0, new Point(100, 100), 50, 150);
-Â«Â«Â«					this.c = new Circle(this, null, "00cc2c", true, 1, 0, new Point(400, 600), 150);
-Â«Â»				}
+				«FOR Rectangle r  : resourceEcore.allContents.toIterable.filter(typeof(Rectangle))»
+					this.«r.name» = new Rectangle("«r.name»", "«r.color»", «r.filled», «r.strokeWeight», «r.degree», «r.displayName», «r.sizeA», «r.sizeB», new Point(«r.center.XPos», «r.center.YPos»), null);
+				«ENDFOR»
+				
+				«FOR Square s  : resourceEcore.allContents.toIterable.filter(typeof(Square))»
+					this.«s.name» = new Square("«s.name»", "«s.color»", «s.filled», «s.strokeWeight», «s.degree», «s.displayName», «s.sizeA»,new Point(«s.center.XPos», «s.center.YPos»), null);
+				«ENDFOR»
+				
+				«FOR Polygon p  : resourceEcore.allContents.toIterable.filter(typeof(Polygon))»
+					this.«p.name» = new Polygon("«p.name»", "«p.color»", «p.filled», «p.strokeWeight», «p.degree», «p.displayName», «p.radius», «p.numberOfVertices», new Point(«p.center.XPos», «p.center.YPos»), null);
+				«ENDFOR»
+				
+			«««					this.l = new Line(this, "test", null, false, 0, 45, new Point(100, 100), 50);
+«««					this.l1 = new Line(this, "test", null, false, 0, 0, new Point(100, 100), 110);
+«««					this.a = new Arrow(this, "test", null, false, 0, 120, new Point(200, 200), 150);
+«««					this.r = new Rectangle(this, "peni", "FF00cc2c", false, 1, 0, new Point(100, 100), 50, 150);
+«»				}
 			
 						}
 				'''
 
 	}
 
-	def compileEntitiesGen(Figur f) {
-		'''
-			package Â«PACKAGEÂ»entities;
-			
-			/**
-			* This is the {@link Â«f.eClass.nameÂ»} entity class.
-			*
-			*@generated
-			*/
-			public abstract class Â«f.eClass.nameÂ»Gen Â«IF !f.eClass.EAllSuperTypes.emptyÂ» extends Â«f.eClass.EAllSuperTypes.head.nameÂ» Â«ENDIFÂ» {
-			
-				// attributes
-				Â«FOR a : f.eClass.EAllAttributesÂ»
-					private Â«a.EType.instanceTypeNameÂ» Â«a.nameÂ»;
-				Â«ENDFORÂ»
-				
-				// references
-				Â«FOR a : f.eClass.EAllReferences.filter[!many]Â»
-					private Â«a.EReferenceType.nameÂ» Â«a.nameÂ»;
-				Â«ENDFORÂ»
-				Â«FOR a : f.eClass.EAllReferences.filter[many]Â»
-					private java.util.ArrayList<Â«a.EReferenceType.nameÂ»> Â«a.nameÂ»;
-				Â«ENDFORÂ»
-				
-				/**
-				* Default constructor.
-				*/
-				public Â«f.eClass.nameÂ»Gen() {
-				}
-				
-				Â«IF !f.eClass.EAllAttributes.emptyÂ»
-					/**
-					* Constructor for all attributes.
-					*/
-					public Â«f.eClass.nameÂ»Gen(Â«FOR a : f.eClass.EAllAttributes SEPARATOR ', 'Â» Â«a.EType.instanceTypeNameÂ» Â«a.nameÂ» Â«ENDFORÂ») {
-						Â«FOR a : f.eClass.EAllAttributesÂ»
-							this.Â«a.nameÂ» = Â«a.nameÂ»;
-						Â«ENDFORÂ»
-					}
-				Â«ENDIFÂ»
-				
-				Â«IF !f.eClass.EAllAttributes.empty && !f.eClass.EAllReferences.emptyÂ»
-					/**
-					* Full constructor.
-					*/
-					public Â«f.eClass.nameÂ»Gen(
-					Â«FOR a : f.eClass.EAllAttributes SEPARATOR ', 'Â» Â«a.EType.instanceTypeNameÂ» Â«a.nameÂ» Â«ENDFORÂ» 
-					Â«FOR a : f.eClass.EAllReferences.filter[!many] BEFORE ', ' SEPARATOR ', 'Â» Â«a.EReferenceType.nameÂ» Â«a.nameÂ» Â«ENDFORÂ»
-					Â«FOR a : f.eClass.EAllReferences.filter[many] BEFORE ', ' SEPARATOR ', 'Â» java.util.ArrayList<Â«a.EReferenceType.nameÂ»> Â«a.nameÂ» Â«ENDFORÂ») {
-					Â«FOR a : f.eClass.EAllAttributes + f.eClass.EAllReferencesÂ»
-						this.Â«a.nameÂ» = Â«a.nameÂ»;
-					Â«ENDFORÂ»
-					}
-				Â«ENDIFÂ»
-				
-				
-				
-			
-			}
-		'''
-	}
 }

@@ -79,14 +79,14 @@ class MetaModelGen {
 
 	def figurChildClass(EClass e) {
 		'''
-			package Â«PACKAGEÂ»figurs;
+			package «PACKAGE»figurs;
 			
 			/**
-			* This is the {@link Â«e.nameÂ»} entity class.
+			* This is the {@link «e.name»} entity class.
 			*
 			*@generated
 			*/
-			public class Â«e.nameÂ» extends Â«e.nameÂ»Gen {
+			public class «e.name» extends «e.name»Gen {
 					
 			}
 		'''
@@ -94,14 +94,14 @@ class MetaModelGen {
 
 	def genFigurClass(EClass e) {
 		'''
-			package Â«PACKAGEÂ»figurs;
+			package «PACKAGE»figurs;
 			
 			/**
-			* This is the {@link Â«e.nameÂ»} entity class.
+			* This is the {@link «e.name»} entity class.
 			*
 			*@generated
 			*/
-			public abstract class Â«e.nameÂ»Gen {
+			public abstract class «e.name»Gen {
 				
 			
 			}
@@ -112,14 +112,14 @@ class MetaModelGen {
 
 	def genFigurChildClass(EClass e) {
 		'''
-			package Â«PACKAGEÂ»figurs;
+			package «PACKAGE»figurs;
 			
 			/**
-			* This is the {@link Â«e.nameÂ»} entity class.
+			* This is the {@link «e.name»} entity class.
 			*
 			*@generated
 			*/
-			public abstract class Â«e.nameÂ»Gen extends FigurGen {
+			public abstract class «e.name»Gen extends FigurGen {
 				
 			}
 				
@@ -130,88 +130,72 @@ class MetaModelGen {
 
 def compileEntitiesGen(EClass e) {
 		'''
-			package Â«PACKAGEÂ»figurs;
+			package «PACKAGE»figurs;
 			
 			import de.thm.plotter.figurimpl.*;
+			import processing.core.PApplet;
 			
 			/**
-			* This is the {@link Â«e.nameÂ»} figurs class.
+			* This is the {@link «e.name»} figurs class.
 			*
 			*@generated
 			*/
-			public abstract class Â«e.nameÂ»Gen Â«IF !e.EAllSuperTypes.emptyÂ» extends Â«e.EAllSuperTypes.head.nameÂ» Â«ENDIFÂ» {
+			public abstract class «e.name»Gen «IF !e.EAllSuperTypes.empty» extends «e.EAllSuperTypes.head.name» «ENDIF» {
 			
 				// attributes
-				Â«FOR a : e.EAllAttributesÂ»
-					private Â«a.EType.instanceTypeNameÂ» Â«a.nameÂ»;
-				Â«ENDFORÂ»
+				«FOR a : e.EAllAttributes»
+					private «a.EType.instanceTypeName» «a.name»;
+				«ENDFOR»
 				
 				// references
-				Â«FOR a : e.EAllReferences.filter[!many]Â»
-					private Â«a.EReferenceType.nameÂ» Â«a.nameÂ»;
-				Â«ENDFORÂ»
-				Â«FOR a : e.EAllReferences.filter[many]Â»
-					private java.util.ArrayList<Â«a.EReferenceType.nameÂ»> Â«a.nameÂ»;
-				Â«ENDFORÂ»
+				«FOR a : e.EAllReferences.filter[!many]»
+					private «a.EReferenceType.name» «a.name»;
+				«ENDFOR»
+				«FOR a : e.EAllReferences.filter[many]»
+					private java.util.ArrayList<«a.EReferenceType.name»> «a.name»;
+				«ENDFOR»
 				
-				/**
-				* Default constructor.
-				*/
-				public Â«e.nameÂ»Gen() {
-				}
-				
-				Â«IF !e.EAllAttributes.emptyÂ»
-					/**
-					* Constructor for all attributes.
-					*/
-					public Â«e.nameÂ»Gen(Â«FOR a : e.EAllAttributes SEPARATOR ', 'Â» Â«a.EType.instanceTypeNameÂ» Â«a.nameÂ» Â«ENDFORÂ») {
-						Â«FOR a : e.EAllAttributesÂ»
-							this.Â«a.nameÂ» = Â«a.nameÂ»;
-						Â«ENDFORÂ»
-					}
-				Â«ENDIFÂ»
-				
-				Â«IF !e.EAllAttributes.empty && !e.EAllReferences.emptyÂ»
+				«IF !e.EAllAttributes.empty && !e.EAllReferences.empty»
 					/**
 					* Full constructor.
 					*/
-					public Â«e.nameÂ»Gen(
-					Â«FOR a : e.EAllAttributes SEPARATOR ', 'Â» Â«a.EType.instanceTypeNameÂ» Â«a.nameÂ» Â«ENDFORÂ» 
-					Â«FOR a : e.EAllReferences.filter[!many] BEFORE ', ' SEPARATOR ', 'Â» Â«a.EReferenceType.nameÂ» Â«a.nameÂ» Â«ENDFORÂ»
-					Â«FOR a : e.EAllReferences.filter[many] BEFORE ', ' SEPARATOR ', 'Â» java.util.ArrayList<Â«a.EReferenceType.nameÂ»> Â«a.nameÂ» Â«ENDFORÂ») {
-					Â«FOR a : e.EAllAttributes + e.EAllReferencesÂ»
-						this.Â«a.nameÂ» = Â«a.nameÂ»;
-					Â«ENDFORÂ»
+					public «e.name»Gen(
+					«FOR a : e.EAllAttributes SEPARATOR ', '» «a.EType.instanceTypeName» «a.name» «ENDFOR» 
+					«FOR a : e.EAllReferences.filter[!many] BEFORE ', ' SEPARATOR ', '» «a.EReferenceType.name» «a.name» «ENDFOR»
+					«FOR a : e.EAllReferences.filter[many] BEFORE ', ' SEPARATOR ', '» java.util.ArrayList<«a.EReferenceType.name»> «a.name» «ENDFOR») {
+					«FOR a : e.EAllAttributes + e.EAllReferences»
+						this.«a.name» = «a.name»;
+					«ENDFOR»
 					}
-				Â«ENDIFÂ»
+				«ENDIF»
 				
-				Â«FOR a : e.EAllAttributesÂ»
-					public Â«a.EType.instanceTypeNameÂ» getÂ«a.name.toFirstUpperÂ» () {
-						return this.Â«a.nameÂ»;
+				«FOR a : e.EAllAttributes»
+					public «a.EType.instanceTypeName» get«a.name.toFirstUpper» () {
+						return this.«a.name»;
 					}
-					public void setÂ«a.name.toFirstUpperÂ»  (Â«a.EType.instanceTypeNameÂ» Â«a.name.toFirstUpperÂ»){
-						this.Â«a.nameÂ» = 	Â«a.name.toFirstUpperÂ»;		 	
+					public void set«a.name.toFirstUpper»  («a.EType.instanceTypeName» «a.name.toFirstUpper»){
+						this.«a.name» = 	«a.name.toFirstUpper»;		 	
 					}
 					
-				Â«ENDFORÂ»
+				«ENDFOR»
 				
-				Â«FOR a : e.EAllReferences.filter[!many]Â»
-					public Â«a.EReferenceType.nameÂ» getÂ«a.name.toFirstUpperÂ» () {
-						return this.Â«a.nameÂ»;
+				«FOR a : e.EAllReferences.filter[!many]»
+					public «a.EReferenceType.name» get«a.name.toFirstUpper» () {
+						return this.«a.name»;
 					}
-					public void setÂ«a.name.toFirstUpperÂ»  (Â«a.EReferenceType.nameÂ» Â«a.name.toFirstUpperÂ»){
-						this.Â«a.nameÂ» = 	Â«a.name.toFirstUpperÂ»;		 	
+					public void set«a.name.toFirstUpper»  («a.EReferenceType.name» «a.name.toFirstUpper»){
+						this.«a.name» = 	«a.name.toFirstUpper»;		 	
 					}
-				Â«ENDFORÂ»
-				Â«FOR a : e.EAllReferences.filter[many]Â»
-					public java.util.ArrayList<Â«a.EReferenceType.nameÂ»> getÂ«a.name.toFirstUpperÂ» () {
-					 	return this.Â«a.nameÂ»;
+				«ENDFOR»
+				«FOR a : e.EAllReferences.filter[many]»
+					public java.util.ArrayList<«a.EReferenceType.name»> get«a.name.toFirstUpper» () {
+					 	return this.«a.name»;
 					}
-					public void setÂ«a.name.toFirstUpperÂ»  (java.util.ArrayList<Â«a.EReferenceType.nameÂ»> Â«a.name.toFirstUpperÂ»){
-						this.Â«a.nameÂ» = 	Â«a.name.toFirstUpperÂ»;		 	
+					public void set«a.name.toFirstUpper»  (java.util.ArrayList<«a.EReferenceType.name»> «a.name.toFirstUpper»){
+						this.«a.name» = 	«a.name.toFirstUpper»;		 	
 					}
 					
-				Â«ENDFORÂ»
+				«ENDFOR»
 			
 			}
 		'''
