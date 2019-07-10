@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/Plotter/src-gen" editDirectory="/Plotter.edit/src-gen"
+    modelPluginID="Plotter" modelName="Plotter" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>plotter.ecore</foreignModel>
+  <genPackages prefix="FigurPlotter" disposableProviderFactory="true" ecorePackage="plotter.ecore#/">
+    <genClasses ecoreClass="plotter.ecore#//Plotter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference plotter.ecore#//Plotter/figures"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Plotter/canvasLength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Plotter/canvasWidth"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Point">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Point/xPos"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Point/yPos"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="plotter.ecore#//Figur">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Figur/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Figur/color"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Figur/filled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Figur/strokeWeight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Figur/degree"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference plotter.ecore#//Figur/center"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference plotter.ecore#//Figur/figures"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Figur/displayName"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Line">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Line/lenght"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Arrow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Arrow/arrowheadRight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Arrow/arrowheadLeft"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Rectangle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Rectangle/sizeA"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Rectangle/sizeB"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Circle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Circle/radius"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Square">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Square/sizeA"/>
+    </genClasses>
+    <genClasses ecoreClass="plotter.ecore#//Polygon">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Polygon/radius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute plotter.ecore#//Polygon/numberOfVertices"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

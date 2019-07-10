@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated plotter -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="figurPlotter.presentation.FigurPlotterModelWizardID"
+            name="%_UI_FigurPlotterModelWizard_label"
+            class="figurPlotter.presentation.FigurPlotterModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/FigurPlotterModelFile.gif">
+         <description>%_UI_FigurPlotterModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated plotter -->
+      <editor
+            id="figurPlotter.presentation.FigurPlotterEditorID"
+            name="%_UI_FigurPlotterEditor_label"
+            icon="icons/full/obj16/FigurPlotterModelFile.gif"
+            extensions="figurplotter"
+            class="figurPlotter.presentation.FigurPlotterEditor"
+            contributorClass="figurPlotter.presentation.FigurPlotterActionBarContributor">
+      </editor>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="FigurPlotter.editor.command1"
+            name="MyGeneratePlotterCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?endof=group.edit">
+         <command
+               commandId="FigurPlotter.editor.command1"
+               label="Generate Figur Plotter"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="figurPlotter.mycommands.GenerateFigurPlotter"
+            commandId="FigurPlotter.editor.command1">
+         <enabledWhen>
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="and">
+                  <adapt
+                        type="org.eclipse.core.resources.IFile">
+                     <or>
+                        <test
+                              property="org.eclipse.core.resources.extension"
+                              value="figurplotter">
+                        </test>
+                     </or>
+                  </adapt>
+               </iterate>
+            </with>
+         </enabledWhen>
+      </handler>
+   </extension>
+
+</plugin>
