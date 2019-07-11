@@ -133,7 +133,6 @@ def compileEntitiesGen(EClass e) {
 			package «PACKAGE»figurs;
 			
 			import de.thm.plotter.figurimpl.*;
-			import processing.core.PApplet;
 			
 			/**
 			* This is the {@link «e.name»} figurs class.
@@ -163,11 +162,21 @@ def compileEntitiesGen(EClass e) {
 					«FOR a : e.EAllAttributes SEPARATOR ', '» «a.EType.instanceTypeName» «a.name» «ENDFOR» 
 					«FOR a : e.EAllReferences.filter[!many] BEFORE ', ' SEPARATOR ', '» «a.EReferenceType.name» «a.name» «ENDFOR»
 					«FOR a : e.EAllReferences.filter[many] BEFORE ', ' SEPARATOR ', '» java.util.ArrayList<«a.EReferenceType.name»> «a.name» «ENDFOR») {
+					super();
 					«FOR a : e.EAllAttributes + e.EAllReferences»
 						this.«a.name» = «a.name»;
 					«ENDFOR»
 					}
 				«ENDIF»
+				
+					/**
+					* Default empty constructor
+					*
+					* @generated
+					*/
+					public «e.name»Gen(){
+					};
+				
 				
 				«FOR a : e.EAllAttributes»
 					public «a.EType.instanceTypeName» get«a.name.toFirstUpper» () {
